@@ -1,0 +1,22 @@
+{
+    "name": "tammets/h5p_content_search",
+    "type": "drupal-module",
+    "description": "Provides search functionality for H5P content.",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Priit",
+            "homepage": "https://github.com/tammets"
+        }
+    ],
+    "require": {
+        "drupal/core": "^10 || ^11",
+        "drupal/h5p": "^2.0@beta",
+        "drupal/search_api": "^1.0"
+    },
+    "homepage": "https://github.com/tammets/h5p_content_search",
+    "support": {
+        "issues": "https://github.com/tammets/h5p_content_search/issues",
+        "source": "https://github.com/tammets/h5p_content_search"
+    }
+}

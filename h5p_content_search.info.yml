@@ -3,3 +3,6 @@ type: module
 description: 'Search data inside H5P content'
 package: Custom
 core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:search_api
+  - h5p:h5p
