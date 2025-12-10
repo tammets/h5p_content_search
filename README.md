@@ -94,7 +94,9 @@ Search API doesn't include a search page by default. Choose one of these options
 **Option A: Create a Search View (Recommended)**
 
 1. Go to **Structure** → **Views** → **Add view**
-2. Set **Show** to your Search API index (e.g., "Content Index")
+2. In the **Show** dropdown, select **"Index Content Index"** (or "Index [your_index_name]")
+   - This is your Search API index, prefixed with "Index"
+   - Don't select "Content" or "H5P Content" - those are regular entity types
 3. Check **Create a page** and set a path like `/search`
 4. Save and edit the view
 5. Add an exposed **Fulltext search** filter so users can enter search queries
@@ -126,10 +128,3 @@ Configure at: `/admin/config/search/search-api-pages`
 - HTML tags are stripped from extracted text
 - Very short strings (< 3 characters) are filtered out to avoid indexing IDs
 - Certain metadata keys are skipped to focus on actual content
-
-## MAINTAINERS
-
-Current maintainers:
-
-- Priit Tammets - https://github.com/tammets
-

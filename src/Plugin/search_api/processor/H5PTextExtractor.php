@@ -78,12 +78,11 @@ class H5PTextExtractor extends ProcessorPluginBase {
           $flat_text = $this->extractStrings($decoded);
 
           // Add the flattened text to the search index.
-          $fields = $item->getFields(FALSE);
-          $fields = $this->getFieldsHelper()
-            ->filterForPropertyPath($fields, NULL, 'h5p_extracted_text');
-
-          foreach ($fields as $field) {
-            $field->addValue($flat_text);
+          $fields = $item->getFields();
+          
+          // Add value directly to the h5p_extracted_text field.
+          if (isset($fields['h5p_extracted_text'])) {
+            $fields['h5p_extracted_text']->addValue($flat_text);
           }
         }
       }
