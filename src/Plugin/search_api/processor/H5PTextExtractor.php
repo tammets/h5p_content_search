@@ -53,17 +53,32 @@ class H5PTextExtractor extends ProcessorPluginBase {
    * Adds the extracted H5P text values to the search index.
    */
   public function addFieldValues(ItemInterface $item) {
-    $flat_text = '';
+    $all_extracted_text = [];
 
-    // Get the entity (Node).
+    // Get the entity (Node or other content entity).
     $entity = $item->getOriginalObject()->getValue();
 
-    // Check if the H5P field exists and has data.
-    if ($entity->hasField('field_h5p') && !$entity->get('field_h5p')->isEmpty()) {
-      $h5p_item = $entity->get('field_h5p')->first()->getValue();
-      $h5p_content_id = $h5p_item['h5p_content_id'] ?? NULL;
+    // Auto-detect all H5P fields on the entity.
+    foreach ($entity->getFieldDefinitions() as $field_name => $definition) {
+      // Check if this is an H5P field type.
+      if ($definition->getType() !== 'h5p') {
+        continue;
+      }
 
-      if ($h5p_content_id) {
+      // Skip if the field is empty.
+      if ($entity->get($field_name)->isEmpty()) {
+        continue;
+      }
+
+      // Process each H5P item in the field (supports multi-value fields).
+      foreach ($entity->get($field_name) as $field_item) {
+        $h5p_value = $field_item->getValue();
+        $h5p_content_id = $h5p_value['h5p_content_id'] ?? NULL;
+
+        if (!$h5p_content_id) {
+          continue;
+        }
+
         // Load the raw H5P parameters from the database.
         $h5p_content = \Drupal::database()->select('h5p_content', 'hc')
           ->fields('hc', ['parameters'])
@@ -73,18 +88,20 @@ class H5PTextExtractor extends ProcessorPluginBase {
 
         if ($h5p_content) {
           $decoded = json_decode($h5p_content, TRUE);
-
-          // Extract text using the helper function.
-          $flat_text = $this->extractStrings($decoded);
-
-          // Add the flattened text to the search index.
-          $fields = $item->getFields();
-          
-          // Add value directly to the h5p_extracted_text field.
-          if (isset($fields['h5p_extracted_text'])) {
-            $fields['h5p_extracted_text']->addValue($flat_text);
+          // Extract text and add to collection.
+          $extracted = $this->extractStrings($decoded);
+          if (!empty(trim($extracted))) {
+            $all_extracted_text[] = $extracted;
           }
         }
+      }
+    }
+
+    // Add extracted text to the search index if we found any.
+    if (!empty($all_extracted_text)) {
+      $fields = $item->getFields();
+      if (isset($fields['h5p_extracted_text'])) {
+        $fields['h5p_extracted_text']->addValue(implode(' ', $all_extracted_text));
       }
     }
   }

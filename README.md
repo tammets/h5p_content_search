@@ -118,13 +118,15 @@ Configure at: `/admin/config/search/search-api-pages`
 
 ### Troubleshooting
 
-- **Field name**: The processor looks for `field_h5p` by default. If your H5P field has a different machine name, update the field reference in `H5PTextExtractor.php`.
 - **Clear cache**: Run `drush cr` after any code changes
 - **Re-index**: Click "Clear all indexed data" then "Index now" to force a fresh index
+- **No H5P text appearing**: Ensure your content type has at least one field of type `h5p` with content
 
 ## NOTES
 
+- The module **auto-detects all H5P fields** on any entity — no configuration needed regardless of field name
+- Supports multiple H5P fields on the same entity
+- Supports multi-value H5P fields
 - The module extracts text from the H5P `parameters` JSON stored in the database
 - HTML tags are stripped from extracted text
-- Very short strings (< 3 characters) are filtered out to avoid indexing IDs
-- Certain metadata keys are skipped to focus on actual content
+- Very short strings (< 3 characters) are filtered out to avoid indexing noise
