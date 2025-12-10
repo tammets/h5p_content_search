@@ -87,9 +87,30 @@ This module requires the following modules:
 4. Wait for indexing to complete
 5. Refresh the page to verify all items are indexed
 
-### Step 6: Test Your Search
+### Step 6: Create a Search Page
 
-1. Create a **Search view** or use the Search API's built-in search page
+Search API doesn't include a search page by default. Choose one of these options:
+
+**Option A: Create a Search View (Recommended)**
+
+1. Go to **Structure** → **Views** → **Add view**
+2. Set **Show** to your Search API index (e.g., "Content Index")
+3. Check **Create a page** and set a path like `/search`
+4. Save and edit the view
+5. Add an exposed **Fulltext search** filter so users can enter search queries
+
+**Option B: Use Search API Page module**
+
+```bash
+composer require drupal/search_api_page
+drush en search_api_page -y
+```
+
+Configure at: `/admin/config/search/search-api-pages`
+
+### Step 7: Test Your Search
+
+1. Navigate to your search page
 2. Search for text that appears inside your H5P content
 3. The content should now be discoverable
 
