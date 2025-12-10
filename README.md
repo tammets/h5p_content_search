@@ -64,17 +64,19 @@ This module requires the following modules:
 
 ### Step 4: Add the H5P Extracted Text Field
 
+> **Important**: You must complete Step 3 (enable the processor) first. The field only appears after the processor is enabled.
+
 1. Click the **Fields** tab on your index
    - URL: `/admin/config/search/search-api/index/content_index/fields`
 2. Click **Add fields** button
-3. In the field list, find and check:
-   - **H5P Extracted Text** (under "General" or processor-added fields)
-4. Click **Add fields** button at the bottom
-5. Back on the Fields page, configure the field:
+3. Scroll down past the "General" and "Content" sections to find the **processor-provided fields** section
+4. Find and check **H5P Extracted Text** (machine name: `h5p_extracted_text`)
+5. Click **Add fields** button at the bottom
+6. Back on the Fields page, configure the field:
    - Find **H5P Extracted Text** in the list
    - Set **Type** to **Fulltext**
    - Set **Boost** to `1.0` (or higher if you want H5P content prioritized)
-6. Click **Save changes**
+7. Click **Save changes**
 
 ### Step 5: Index Your Content
 
